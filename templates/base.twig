@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Ticket App{% endblock %}</title>
+    <title>{% block title %}TicketX{% endblock %}</title>
 
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-white text-gray-800">
+<body class="min-h-screen flex flex-col bg-white text-gray-800">
 
+    <!-- Navbar -->
     {% include 'navbar.twig' %}
 
-    {% block content %}{% endblock %}
+    <!-- Page content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
 
+    <!-- Footer -->
     {% include 'footer.twig' %}
 
 </body>

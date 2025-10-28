@@ -3,91 +3,149 @@
 {% block title %}Login - Ticket App{% endblock %}
 
 {% block content %}
-<div class="max-w-md mx-auto my-16 bg-white shadow-md p-8 rounded-xl">
-    <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">
-        Login
-    </h1>
+<div class="flex justify-center items-center min-h-screen bg-gray-50">
+  <div class="max-w-md w-full bg-white shadow-md p-8 rounded-xl">
+    <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">Login</h1>
 
     <form id="loginForm" class="space-y-5">
-        <div>
-            <label class="block mb-1 font-medium">Email</label>
-            <input
-                type="email"
-                name="email"
-                class="w-full border rounded-md px-3 py-2"
-            />
-            <p class="text-red-500 text-sm hidden" id="emailError"></p>
-        </div>
+      <div>
+        <label class="block mb-1 font-medium">Email</label>
+        <input
+          type="email"
+          name="email"
+          class="w-full border rounded-md px-3 py-2"
+        />
+        <p class="text-red-500 text-sm hidden" id="emailError"></p>
+      </div>
 
-        <div>
-            <label class="block mb-1 font-medium">Password</label>
-            <input
-                type="password"
-                name="password"
-                class="w-full border rounded-md px-3 py-2"
-            />
-            <p class="text-red-500 text-sm hidden" id="passwordError"></p>
-        </div>
+      <div>
+        <label class="block mb-1 font-medium">Password</label>
+        <input
+          type="password"
+          name="password"
+          class="w-full border rounded-md px-3 py-2"
+        />
+        <p class="text-red-500 text-sm hidden" id="passwordError"></p>
+      </div>
 
-        <button
-            type="submit"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-md transition"
-        >
-            Sign In
-        </button>
+      <button
+        type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-md transition"
+      >
+        Sign In
+      </button>
 
-        <p class="text-center text-sm mt-3">
-            Don’t have an account?
-            <a href="/?page=signup" class="text-blue-600 hover:underline">
-                Sign up
-            </a>
-        </p>
+      <p class="text-center text-sm mt-3">
+        Don’t have an account?
+        <a href="/?page=signup" class="text-blue-600 hover:underline">
+          Sign up
+        </a>
+      </p>
     </form>
+  </div>
 </div>
 
-<!-- Toastify -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-toastify/dist/ReactToastify.min.css">
+<!-- ✅ Toastify -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+/>
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
+<style>
+/* 👇 make Toastify look like React Toastify */
+.toastify {
+  border-radius: 8px !important;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 14px 20px;
+}
+
+.toastify-right {
+  right: 24px !important;
+}
+
+.toastify-top {
+  top: 24px !important;
+}
+
+/* smooth fade animation */
+.toastify {
+  opacity: 0;
+  transform: translateY(-15px);
+  animation: fadeInSlideDown 0.4s forwards;
+}
+
+@keyframes fadeInSlideDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
 <script>
-document.getElementById("loginForm").addEventListener("submit", function(e) {
-    e.preventDefault();
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-    const email = this.email.value.trim();
-    const password = this.password.value.trim();
+  const email = this.email.value.trim();
+  const password = this.password.value.trim();
 
-    const emailError = document.getElementById("emailError");
-    const passError = document.getElementById("passwordError");
+  const emailError = document.getElementById("emailError");
+  const passError = document.getElementById("passwordError");
 
-    emailError.classList.add("hidden");
-    passError.classList.add("hidden");
+  emailError.classList.add("hidden");
+  passError.classList.add("hidden");
 
-    if(!email) {
-        emailError.textContent = "Email is required";
-        emailError.classList.remove("hidden");
-        return;
-    }
+  if (!email) {
+    emailError.textContent = "Email is required";
+    emailError.classList.remove("hidden");
+    return;
+  }
 
-    if(!password) {
-        passError.textContent = "Password is required";
-        passError.classList.remove("hidden");
-        return;
-    }
+  if (!password) {
+    passError.textContent = "Password is required";
+    passError.classList.remove("hidden");
+    return;
+  }
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const user = users.find(u => u.email === email && u.password === password);
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const user = users.find(u => u.email === email && u.password === password);
 
-    if(!user) {
-        Toastify({ text: "Invalid email or password", backgroundColor: "red" }).showToast();
-        return;
-    }
+  if (!user) {
+    Toastify({
+      text: "Invalid email or password",
+      duration: 3000,
+      gravity: "top",
+      position: "right",
+      close: true,
+      stopOnFocus: true,
+      style: {
+        background: "#ef4444", // red
+        color: "#fff",
+      },
+    }).showToast();
+    return;
+  }
 
-    localStorage.setItem("ticketapp_session", JSON.stringify(user));
-    Toastify({ text: "Login successful!", backgroundColor: "green" }).showToast();
+  localStorage.setItem("ticketapp_session", JSON.stringify(user));
 
-    setTimeout(() => {
-        window.location.href = "/?page=dashboard";
-    }, 1500);
+  Toastify({
+    text: "Login successful!",
+    duration: 2000,
+    gravity: "top",
+    position: "right",
+    close: true,
+    stopOnFocus: true,
+    style: {
+      background: "#22c55e", // green
+      color: "#fff",
+    },
+  }).showToast();
+
+  setTimeout(() => {
+    window.location.href = "/?page=dashboard";
+  }, 2000);
 });
 </script>
 {% endblock %}

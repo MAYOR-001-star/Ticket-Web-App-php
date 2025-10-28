@@ -1,19 +1,35 @@
 {% extends "base.twig" %}
 
 {% block content %}
-<section class="relative bg-gradient-to-b from-blue-50 to-white min-h-[80vh] flex flex-col justify-center items-center text-center px-6">
+<section class="relative bg-gradient-to-b from-blue-50 to-white min-h-[80vh] flex flex-col justify-center items-center text-center px-6 overflow-hidden">
 
-    <h1 class="text-5xl font-bold text-gray-800 mb-4">
+    <!-- Decorative Circles -->
+    <div class="hidden md:block bg-blue-300 w-20 h-20 rounded-full absolute left-[5rem] top-[4rem] opacity-50 floating"></div>
+    <div class="hidden md:block bg-blue-300 w-32 h-32 rounded-full absolute left-[36rem] bottom-[11.5rem] lg:left-[66rem] lg:bottom-[6rem] opacity-50 floating z-50"></div>
+
+    <!-- Hero Content -->
+    <h1 class="text-5xl font-bold text-gray-800 mb-4 leading-tight">
         Manage Your Tickets Seamlessly
     </h1>
     <p class="text-lg text-gray-600 mb-8">
-        A powerful platform to create and track tickets efficiently.
+        A powerful and intuitive platform to create, track, and manage your support tickets efficiently.
     </p>
 
     <div id="landingButtons" class="flex gap-4 justify-center"></div>
 
-    <img src="wave.svg" class="mt-0" />
+    <!-- Hero Wave -->
+    <img src="wave.svg" alt="wave background" class="hidden md:block relative z-10 w-full mt-0" />
 </section>
+
+<style>
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+</style>
 
 <script>
 const session = JSON.parse(localStorage.getItem("ticketapp_session"));

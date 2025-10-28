@@ -1,33 +1,63 @@
 <nav class="bg-white shadow-md py-4">
-    <div class="max-w-[1440px] mx-auto px-4 flex justify-between items-center">
-        <a href="/?page=landing" class="text-2xl font-bold text-blue-600">
-            TicketApp
-        </a>
+  <div class="max-w-[1440px] mx-auto px-4 flex justify-between items-center">
+    <a href="/?page=landing" class="text-2xl font-bold text-blue-600">
+      TicketX
+    </a>
 
-        <div id="navLinks" class="flex gap-5"></div>
-    </div>
+    <!-- Hamburger (mobile) -->
+    <button id="menuBtn" class="md:hidden text-gray-700 text-3xl">☰</button>
+
+    <!-- Links (desktop) -->
+    <div id="navLinks" class="hidden md:flex gap-5 items-center"></div>
+  </div>
+
+  <!-- Mobile dropdown -->
+  <div id="mobileMenu" class="hidden md:hidden px-4 space-y-2 mt-2"></div>
 </nav>
 
 <script>
-const session = JSON.parse(localStorage.getItem("ticketapp_session"));
+function updateNavbar() {
+  const session = localStorage.getItem("ticketapp_session");
+  const nav = document.getElementById("navLinks");
+  const mobile = document.getElementById("mobileMenu");
 
-const nav = document.getElementById("navLinks");
+  if (session) {
+    nav.innerHTML = `
+      <a href="/?page=dashboard" class="text-gray-700 hover:text-blue-600">Dashboard</a>
+      <a href="/?page=tickets" class="text-gray-700 hover:text-blue-600">Tickets</a>
+      <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition">Logout</button>
+    `;
 
-if (session) {
-    nav.innerHTML = `
-        <a href="/?page=dashboard" class="text-gray-700 hover:text-blue-600">Dashboard</a>
-        <a href="/?page=tickets" class="text-gray-700 hover:text-blue-600">Tickets</a>
-        <a href="#" onclick="logout()" class="text-red-600 hover:text-red-700">Logout</a>
+    mobile.innerHTML = `
+      <a href="/?page=dashboard" class="block text-gray-700">Dashboard</a>
+      <a href="/?page=tickets" class="block text-gray-700">Tickets</a>
+      <button onclick="logout()" class="block bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition w-full text-left mt-2">Logout</button>
     `;
-} else {
+  } else {
     nav.innerHTML = `
-        <a href="/?page=login" class="text-gray-700 hover:text-blue-600">Login</a>
-        <a href="/?page=signup" class="text-gray-700 hover:text-blue-600">Signup</a>
+      <a href="/?page=login" class="text-gray-700 hover:text-blue-600">Login</a>
+      <a href="/?page=signup" class="text-gray-700 hover:text-blue-600">Signup</a>
     `;
+
+    mobile.innerHTML = `
+      <a href="/?page=login" class="block text-gray-700">Login</a>
+      <a href="/?page=signup" class="block text-gray-700">Signup</a>
+    `;
+  }
 }
 
 function logout() {
-    localStorage.removeItem("ticketapp_session");
-    window.location.href = "/?page=landing";
+  localStorage.removeItem("ticketapp_session");
+  updateNavbar();
+  window.location.href = "/?page=landing";
 }
+
+updateNavbar();
+
+window.addEventListener("storage", updateNavbar);
+
+// Mobile toggle
+document.getElementById("menuBtn").addEventListener("click", () => {
+  document.getElementById("mobileMenu").classList.toggle("hidden");
+});
 </script>
