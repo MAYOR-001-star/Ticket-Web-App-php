@@ -1,0 +1,49 @@
+# -------------------------------
+# PHP + Twig Project Git Ignore
+# -------------------------------
+
+# Composer vendor directory
+/vendor/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE & editor settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node and build files (if frontend assets exist)
+node_modules/
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & cache
+*.log
+/tmp/
+cache/
+storage/
+*.cache
+
+# PHPUnit / Testing
+.phpunit.result.cache
+coverage/
+reports/
+
+# Vercel build output
+.vercel/
+.vercel_build_output/
+
+# Optional: Ignore composer lock if it's a library (not app)
+/composer.lock
+
+# Ignore other config or temporary files
+/.php-cs-fixer.cache

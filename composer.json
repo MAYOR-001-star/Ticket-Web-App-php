@@ -1,0 +1,17 @@
+{
+    "name": "admin/ticket-php",
+    "require": {
+        "twig/twig": "^3.21"
+    },
+    "autoload": {
+        "psr-4": {
+            "Admin\\TicketPhp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "baruwa abdul-azeez mayowa",
+            "email": "mayorkunabdulazeez01@gmail.com"
+        }
+    ]
+}

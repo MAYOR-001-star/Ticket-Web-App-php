@@ -1,0 +1,66 @@
+{% extends "base.twig" %}
+
+{% block title %}Dashboard - TicketApp{% endblock %}
+
+{% block content %}
+
+<script>
+// ✅ AUTH GUARD
+const sessionUser = JSON.parse(localStorage.getItem("ticketapp_session"));
+if (!sessionUser) window.location.href = "/?page=login";
+</script>
+
+<div class="max-w-[1440px] mx-auto px-4 py-10">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Dashboard</h1>
+
+        <a onclick="logout()"
+           class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition cursor-pointer">
+            Logout
+        </a>
+    </div>
+
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="bg-white shadow p-6 rounded-xl border-l-4 border-blue-500">
+            <h3 class="text-gray-500 text-sm font-medium">Total Tickets</h3>
+            <p id="stat_total" class="text-2xl font-bold text-gray-800">0</p>
+        </div>
+
+        <div class="bg-white shadow p-6 rounded-xl border-l-4 border-green-500">
+            <h3 class="text-gray-500 text-sm font-medium">Open Tickets</h3>
+            <p id="stat_open" class="text-2xl font-bold text-gray-800">0</p>
+        </div>
+
+        <div class="bg-white shadow p-6 rounded-xl border-l-4 border-amber-500">
+            <h3 class="text-gray-500 text-sm font-medium">In Progress Tickets</h3>
+            <p id="stat_in_progress" class="text-2xl font-bold text-gray-800">0</p>
+        </div>
+
+        <div class="bg-white shadow p-6 rounded-xl border-l-4 border-gray-500">
+            <h3 class="text-gray-500 text-sm font-medium">Closed Tickets</h3>
+            <p id="stat_closed" class="text-2xl font-bold text-gray-800">0</p>
+        </div>
+    </div>
+
+    <div class="mt-10 text-center">
+        <a href="?page=tickets" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md transition">
+            Manage Tickets
+        </a>
+    </div>
+</div>
+
+<script>
+const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+
+document.getElementById("stat_total").textContent = tickets.length;
+document.getElementById("stat_open").textContent = tickets.filter(t => t.status === "open").length;
+document.getElementById("stat_in_progress").textContent = tickets.filter(t => t.status === "in_progress").length;
+document.getElementById("stat_closed").textContent = tickets.filter(t => t.status === "closed").length;
+
+function logout() {
+    localStorage.removeItem("ticketapp_session");
+    window.location.href = "/?page=landing";
+}
+</script>
+
+{% endblock %}

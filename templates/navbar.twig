@@ -1,0 +1,33 @@
+<nav class="bg-white shadow-md py-4">
+    <div class="max-w-[1440px] mx-auto px-4 flex justify-between items-center">
+        <a href="/?page=landing" class="text-2xl font-bold text-blue-600">
+            TicketApp
+        </a>
+
+        <div id="navLinks" class="flex gap-5"></div>
+    </div>
+</nav>
+
+<script>
+const session = JSON.parse(localStorage.getItem("ticketapp_session"));
+
+const nav = document.getElementById("navLinks");
+
+if (session) {
+    nav.innerHTML = `
+        <a href="/?page=dashboard" class="text-gray-700 hover:text-blue-600">Dashboard</a>
+        <a href="/?page=tickets" class="text-gray-700 hover:text-blue-600">Tickets</a>
+        <a href="#" onclick="logout()" class="text-red-600 hover:text-red-700">Logout</a>
+    `;
+} else {
+    nav.innerHTML = `
+        <a href="/?page=login" class="text-gray-700 hover:text-blue-600">Login</a>
+        <a href="/?page=signup" class="text-gray-700 hover:text-blue-600">Signup</a>
+    `;
+}
+
+function logout() {
+    localStorage.removeItem("ticketapp_session");
+    window.location.href = "/?page=landing";
+}
+</script>
