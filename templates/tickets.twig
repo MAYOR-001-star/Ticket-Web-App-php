@@ -144,11 +144,23 @@ if (!sessionUser) window.location.href = "/?page=login";
 <script>
 let tickets = JSON.parse(localStorage.getItem("tickets")) || [];
 let deleteId = null;
+
 const container = document.getElementById("ticketsContainer");
 const form = document.getElementById("ticketForm");
 const modal = document.getElementById("confirmModal");
 const ticketId = document.getElementById("ticketId");
 const formTitle = document.getElementById("formTitle");
+
+// ✅ input + error references
+const title = document.getElementById("title");
+const description = document.getElementById("description");
+const priority = document.getElementById("priority");
+const status = document.getElementById("status");
+
+const titleError = document.getElementById("titleError");
+const descError = document.getElementById("descError");
+const priorityError = document.getElementById("priorityError");
+const statusError = document.getElementById("statusError");
 
 function saveTickets() {
   localStorage.setItem("tickets", JSON.stringify(tickets));
@@ -185,8 +197,11 @@ function renderTickets() {
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  // reset errors
-  document.querySelectorAll("#ticketForm p").forEach(p => p.classList.add("hidden"));
+  // reset previous errors
+  [titleError, descError, priorityError, statusError].forEach((el) => {
+    el.classList.add("hidden");
+    el.textContent = "";
+  });
 
   const titleVal = title.value.trim();
   const descVal = description.value.trim();
